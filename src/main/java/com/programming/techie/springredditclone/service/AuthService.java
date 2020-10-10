@@ -12,6 +12,7 @@ import com.programming.techie.springredditclone.repository.UserRepository;
 import com.programming.techie.springredditclone.repository.VerificationTokenRepository;
 import com.programming.techie.springredditclone.security.JwtProvider;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,6 +39,9 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+    @Value("${app.url}")
+    private String appUrl;
+
 
     public void signup(RegisterRequest registerRequest) {
         User user = new User();
@@ -53,7 +57,7 @@ public class AuthService {
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
                 user.getEmail(), "Thank you for signing up to Spring Reddit, " +
                 "please click on the below url to activate your account : " +
-                "http://localhost:8080/api/auth/accountVerification/" + token));
+                appUrl + "/api/auth/accountVerification/" + token));
     }
 
     @Transactional(readOnly = true)
