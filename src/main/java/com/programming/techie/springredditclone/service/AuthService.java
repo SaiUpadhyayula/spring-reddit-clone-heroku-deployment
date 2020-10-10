@@ -1,5 +1,6 @@
 package com.programming.techie.springredditclone.service;
 
+import com.programming.techie.springredditclone.config.AppConfig;
 import com.programming.techie.springredditclone.dto.AuthenticationResponse;
 import com.programming.techie.springredditclone.dto.LoginRequest;
 import com.programming.techie.springredditclone.dto.RefreshTokenRequest;
@@ -12,7 +13,6 @@ import com.programming.techie.springredditclone.repository.UserRepository;
 import com.programming.techie.springredditclone.repository.VerificationTokenRepository;
 import com.programming.techie.springredditclone.security.JwtProvider;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,8 +39,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
-    @Value("${app.url}")
-    private String appUrl;
+    private final AppConfig appConfig;
 
 
     public void signup(RegisterRequest registerRequest) {
@@ -57,7 +56,7 @@ public class AuthService {
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
                 user.getEmail(), "Thank you for signing up to Spring Reddit, " +
                 "please click on the below url to activate your account : " +
-                appUrl + "/api/auth/accountVerification/" + token));
+                appConfig.getAppUrl() + "/api/auth/accountVerification/" + token));
     }
 
     @Transactional(readOnly = true)
