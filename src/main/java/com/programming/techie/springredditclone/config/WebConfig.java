@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-                .allowedOrigins("https://spring-angular-reddit-clone.herokuapp.com/")
+                .allowedOrigins("https://spring-angular-reddit-clone.herokuapp.com")
                 .allowedMethods("*")
                 .maxAge(3600L)
                 .allowedHeaders("*")
